@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserId(Long id) {
-        if (userRepository.getUserId(id) != null) {
+        if(userRepository.getUserId(id) != null) {
             User user = userRepository.getUserId(id);
             return userMapper.toUserDto(user);
         } else {
@@ -50,14 +50,18 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto updateUser(UserDto userDto, Long id) {
         checkUserEmail(userDto.getEmail());
-        if (userRepository.getUserId(id) != null) {
+
+        if(userRepository.getUserId(id) != null) {
             User user = userRepository.getUserId(id);
-            if (userDto.getName()!=null) {
+
+            if(userDto.getName()!=null) {
                 user.setName(userDto.getName());
             }
+
             if(userDto.getEmail()!= null) {
                 user.setEmail(userDto.getEmail());
             }
+
             User userUpdate = userRepository.updateUser(user);
             return userMapper.toUserDto(userUpdate);
         } else {

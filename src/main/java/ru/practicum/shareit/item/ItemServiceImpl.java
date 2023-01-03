@@ -18,24 +18,28 @@ public class ItemServiceImpl implements ItemService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
+
     @Override
     public ItemDto addItem(ItemDto itemDto, Long userId) {
-        if (userRepository.getUserId(userId) == null) {
+        if(!userRepository.getUsers().containsKey(userId)) {
             log.error("Пользователя не существует");
             throw new UserNotFoundException("Пользователя не существует");
         }
-        if (itemDto.getAvailable() == null) {
+
+        if(itemDto.getAvailable() == null) {
             log.error("Предмет должен иметь статус");
             throw new ItemNotAvailableException("Предмет должен иметь статус");
         }
-        if (itemDto.getName().isEmpty()) {
+        if(itemDto.getName().isEmpty()) {
             log.error("Предмет должен иметь имя");
             throw new ItemNotNullNameException("Предмет должен иметь имя");
         }
-        if (itemDto.getDescription() == null) {
+
+        if(itemDto.getDescription() == null) {
             log.error("Предмет должен иметь описание");
             throw new ItemNotNullDescriptionException("Предмет должен иметь описание");
         }
+
         Item item = itemRepository.addItem(itemMapper.toItem(itemDto, userId));
         return itemMapper.toItemDto(item);
     }
@@ -49,11 +53,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto updateItem(ItemDto itemDto, Long id, Long userId) {
-        if (!itemRepository.getItems().containsKey(id)) {
+        if(!itemRepository.getItems().containsKey(id)) {
             log.error("Данной вещи не существует");
             throw new ItemNotFoundException("Данной вещи не существует");
         }
-        if (!userRepository.getUsers().containsKey(userId)) {
+
+        if(!userRepository.getUsers().containsKey(userId)) {
             log.error("Пользователя не существует");
             throw new UserNotFoundException("Пользователя не существует");
         }
@@ -64,15 +69,19 @@ public class ItemServiceImpl implements ItemService {
             log.error("Пользователю не принадлежит данная вещь");
             throw new UserNotBelongsItemException("Пользователю не принадлежит данная вещь");
         }
-        if (itemDto.getName() != null) {
+
+        if(itemDto.getName() != null) {
             item.setName(itemDto.getName());
         }
-        if (itemDto.getDescription() != null) {
+
+        if(itemDto.getDescription() != null) {
             item.setDescription(itemDto.getDescription());
         }
-        if (itemDto.getAvailable() != null) {
+
+        if(itemDto.getAvailable() != null) {
             item.setAvailable(itemDto.getAvailable());
         }
+
         return itemMapper.toItemDto(itemRepository.updateItem(item));
     }
 
