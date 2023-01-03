@@ -25,7 +25,7 @@ public class UserRepository {
     }
 
     public User addUser(User user) {
-        if(user.getEmail() != null && user.getEmail().contains("@")) {
+        if (user.getEmail() != null && user.getEmail().contains("@")) {
             increaseNumber();
             user.setId(idUser);
             users.put(idUser, user);
@@ -40,7 +40,7 @@ public class UserRepository {
     }
 
     public User updateUser(User user) {
-        if(user.getEmail() != null && user.getEmail().contains("@")) {
+        if (user.getEmail() != null && user.getEmail().contains("@")) {
             users.put(user.getId(), user);
             return user;
         } else {

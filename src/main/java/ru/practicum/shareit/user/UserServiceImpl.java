@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService{
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+
     @Override
     public UserDto addUser(UserDto userDto) {
         checkUserEmail(userDto.getEmail());
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Long id) {
-        if(userRepository.getUserId(id) != null) {
+        if (userRepository.getUserId(id) != null) {
             userRepository.deleteUser(id);
         }
     }
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserId(Long id) {
-        if(userRepository.getUserId(id) != null) {
+        if (userRepository.getUserId(id) != null) {
             User user = userRepository.getUserId(id);
             return userMapper.toUserDto(user);
         } else {
@@ -51,14 +52,14 @@ public class UserServiceImpl implements UserService{
     public UserDto updateUser(UserDto userDto, Long id) {
         checkUserEmail(userDto.getEmail());
 
-        if(userRepository.getUserId(id) != null) {
+        if (userRepository.getUserId(id) != null) {
             User user = userRepository.getUserId(id);
 
-            if(userDto.getName()!=null) {
+            if (userDto.getName()!=null) {
                 user.setName(userDto.getName());
             }
 
-            if(userDto.getEmail()!= null) {
+            if (userDto.getEmail()!= null) {
                 user.setEmail(userDto.getEmail());
             }
 
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService{
         boolean isCheckEmail = userRepository.getAllUsers().stream()
                 .map(User::getEmail)
                 .noneMatch(usersEmail -> usersEmail.equals(email));
-        if(!isCheckEmail) {
+        if (!isCheckEmail) {
             throw new UserEmailCheckException(email + " уже существует");
         }
     }

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 /**
  * TODO Sprint add-controllers.
  */
+
 @Data
 @NoArgsConstructor
 public class User {

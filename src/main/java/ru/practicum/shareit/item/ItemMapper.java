@@ -8,6 +8,7 @@ import ru.practicum.shareit.user.UserRepository;
 @RequiredArgsConstructor
 public class ItemMapper {
     private final UserRepository userRepository;
+
     public ItemDto toItemDto(Item item) {
         ItemDto itemDto = new ItemDto();
         itemDto.setId(item.getId());
