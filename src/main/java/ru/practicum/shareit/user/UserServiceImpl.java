@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService{
         if (userRepository.getUserId(id) != null) {
             User user = userRepository.getUserId(id);
 
-            if (userDto.getName()!=null) {
+            if (userDto.getName() != null) {
                 user.setName(userDto.getName());
             }
 
-            if (userDto.getEmail()!= null) {
+            if (userDto.getEmail() != null) {
                 user.setEmail(userDto.getEmail());
             }
 
