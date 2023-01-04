@@ -17,32 +17,32 @@ public class ItemController {
 
     @PostMapping
     public ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.addItem(itemDto, userId);
+        return itemService.add(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestBody ItemDto itemDto, @PathVariable Long itemId,
                               @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.updateItem(itemDto, itemId, userId);
+        return itemService.update(itemDto, itemId, userId);
     }
 
     @DeleteMapping("/{itemId}")
     public void deleteItem(@PathVariable Long itemId) {
-        itemService.deleteItem(itemId);
+        itemService.delete(itemId);
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getItemId(@PathVariable Long itemId) {
-        return itemService.getItemId(itemId);
+        return itemService.getId(itemId);
     }
 
     @GetMapping
-    public List<ItemDto> getAllItemsUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.getItemsUserId(userId);
+    public List<ItemDto> getAllItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.getItemsByUserId(userId);
     }
 
     @GetMapping("/search")
     public List<ItemDto> searchItem(@RequestParam String text) {
-        return itemService.searchItems(text);
+        return itemService.search(text);
     }
 }

@@ -18,7 +18,6 @@ public class Item {
     private String name;
     @NotNull
     private String description;
-    @NotNull
     private Boolean available;
     private User user = new User();
     private ItemRequest request;

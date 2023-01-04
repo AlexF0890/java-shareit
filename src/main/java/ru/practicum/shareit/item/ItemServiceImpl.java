@@ -20,8 +20,8 @@ public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
 
     @Override
-    public ItemDto addItem(ItemDto itemDto, Long userId) {
-        if (!userRepository.getUsers().containsKey(userId)) {
+    public ItemDto add(ItemDto itemDto, Long userId) {
+        if (!userRepository.isExist(userId)) {
             log.error("Пользователя не существует");
             throw new UserNotFoundException("Пользователя не существует");
         }
@@ -39,30 +39,33 @@ public class ItemServiceImpl implements ItemService {
             throw new ItemNotNullDescriptionException("Предмет должен иметь описание");
         }
 
-        Item item = itemRepository.addItem(itemMapper.toItem(itemDto, userId));
+        Item item = itemRepository.add(itemMapper.toItem(itemDto, userId));
         return itemMapper.toItemDto(item);
     }
 
     @Override
-    public void deleteItem(Long id) {
-        if (itemRepository.getItemId(id) != null) {
-            itemRepository.deleteItem(id);
+    public void delete(Long id) {
+        if (itemRepository.isExist(id)) {
+            itemRepository.delete(id);
+        } else {
+            log.error("Данной вещи не существует");
+            throw new ItemNotFoundException("Данной вещи не существует");
         }
     }
 
     @Override
-    public ItemDto updateItem(ItemDto itemDto, Long id, Long userId) {
-        if (!itemRepository.getItems().containsKey(id)) {
+    public ItemDto update(ItemDto itemDto, Long id, Long userId) {
+        if (!itemRepository.isExist(id)) {
             log.error("Данной вещи не существует");
             throw new ItemNotFoundException("Данной вещи не существует");
         }
 
-        if (!userRepository.getUsers().containsKey(userId)) {
+        if (!userRepository.isExist(userId)) {
             log.error("Пользователя не существует");
             throw new UserNotFoundException("Пользователя не существует");
         }
 
-        Item item = itemRepository.getItemId(id);
+        Item item = itemRepository.getId(id);
 
         if (!item.getUser().getId().equals(userId)) {
             log.error("Пользователю не принадлежит данная вещь");
@@ -81,13 +84,13 @@ public class ItemServiceImpl implements ItemService {
             item.setAvailable(itemDto.getAvailable());
         }
 
-        return itemMapper.toItemDto(itemRepository.updateItem(item));
+        return itemMapper.toItemDto(itemRepository.update(item));
     }
 
     @Override
-    public ItemDto getItemId(Long id) {
-        if (itemRepository.getItemId(id) != null) {
-            Item item = itemRepository.getItemId(id);
+    public ItemDto getId(Long id) {
+        if (itemRepository.isExist(id)) {
+            Item item = itemRepository.getId(id);
             return itemMapper.toItemDto(item);
         } else {
             log.error("Данной вещи не существует");
@@ -96,20 +99,19 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getItemsUserId(Long userId) {
-        return itemRepository.getAllItems().stream()
-                .filter(item -> item.getUser().getId().equals(userId))
+    public List<ItemDto> getItemsByUserId(Long userId) {
+        return itemRepository.getItemsByUserId(userId).stream()
                 .map(itemMapper::toItemDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ItemDto> searchItems(String search) {
+    public List<ItemDto> search(String search) {
         if (StringUtils.isEmpty(search)) {
             return new ArrayList<>();
         }
 
-        return itemRepository.getAllItems().stream()
+        return itemRepository.getAll().stream()
                 .filter(Item::getAvailable)
                 .filter(itemDto -> StringUtils.startsWithIgnoreCase(itemDto.getName(), search)
                 || StringUtils.startsWithIgnoreCase(itemDto.getDescription(), search)
