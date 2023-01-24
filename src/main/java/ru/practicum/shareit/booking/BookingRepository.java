@@ -32,11 +32,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("select b from Booking b where b.item.owner.id = ?1 and b.end < current_timestamp order by b.id desc")
     List<Booking> findBookingsByItemOwnerIdAndEndDateIsBefore(Long ownerId);
 
-    @Query("select b from Booking b where b.booker.id = ?1 and current_timestamp "+
+    @Query("select b from Booking b where b.booker.id = ?1 and current_timestamp " +
             "between b.start and b.end order by b.id desc")
     List<Booking> findBookingsByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(Long bookerId);
 
-    @Query("select b from Booking b where b.item.owner.id = ?1 and current_timestamp "+
+    @Query("select b from Booking b where b.item.owner.id = ?1 and current_timestamp " +
             "between b.start and b.end order by b.id desc")
     List<Booking> findBookingsByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(Long ownerId);
 
