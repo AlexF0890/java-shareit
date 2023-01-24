@@ -114,14 +114,14 @@ public class BookingServiceImpl implements BookingService {
                 return bookingMapper.toBookingDtoList(bookingRepository.findBookingsByItemOwnerIdAndStatusEquals(
                         ownerId, STATUS.REJECTED));
             case FUTURE:
-                return bookingMapper.toBookingDtoList(bookingRepository.
-                        findBookingsByItemOwnerIdAndStartDateIsAfterOrderByStartDateDesc(ownerId));
+                return bookingMapper.toBookingDtoList(bookingRepository
+                        .findBookingsByItemOwnerIdAndStartDateIsAfterOrderByStartDateDesc(ownerId));
             case PAST:
-                return bookingMapper.toBookingDtoList(bookingRepository.
-                        findBookingsByItemOwnerIdAndEndDateIsBefore(ownerId));
+                return bookingMapper.toBookingDtoList(bookingRepository
+                        .findBookingsByItemOwnerIdAndEndDateIsBefore(ownerId));
             case CURRENT:
-                return bookingMapper.toBookingDtoList(bookingRepository.
-                        findBookingsByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(ownerId));
+                return bookingMapper.toBookingDtoList(bookingRepository
+                        .findBookingsByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(ownerId));
             default:
                 throw new BookingStateNotFoundException("Не существует");
         }

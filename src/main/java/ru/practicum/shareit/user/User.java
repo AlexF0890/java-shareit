@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "email"}))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "email"}))
 @Setter
 @Getter
 @ToString
