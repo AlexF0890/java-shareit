@@ -1,13 +1,14 @@
 package ru.practicum.shareit.item;
 
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
-import ru.practicum.shareit.user.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class ItemMapper {
-    private final UserRepository userRepository;
 
     public ItemDto toItemDto(Item item) {
         ItemDto itemDto = new ItemDto();
@@ -18,13 +19,16 @@ public class ItemMapper {
         return itemDto;
     }
 
-    public Item toItem(ItemDto itemDto, Long userId) {
+    public Item toItem(ItemDto itemDto) {
         Item item = new Item();
         item.setId(itemDto.getId());
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
         item.setAvailable(itemDto.getAvailable());
-        item.setUser(userRepository.getId(userId));
         return item;
+    }
+
+    public List<ItemDto> toListItemDto(List<Item> items) {
+        return items.stream().map(this::toItemDto).collect(Collectors.toList());
     }
 }
