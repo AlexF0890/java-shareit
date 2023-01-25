@@ -37,6 +37,6 @@ public class Booking {
     private User booker;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 30)
     private STATUS status = STATUS.WAITING;
 }

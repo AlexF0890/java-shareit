@@ -161,15 +161,7 @@ public class ItemServiceImpl implements ItemService {
             throw new UserNotFoundException("Пользователя не существует");
         }
 
-        List<Item> items = itemRepository.findByIsAvailableIsTrue(search.toLowerCase())
-                .stream()
-                .filter(Item::getAvailable)
-                .filter(itemDto -> StringUtils.startsWithIgnoreCase(itemDto.getName(), search.toLowerCase())
-                        || StringUtils.startsWithIgnoreCase(itemDto.getDescription(), search.toLowerCase())
-                        || StringUtils.endsWithIgnoreCase(itemDto.getName(), search.toLowerCase())
-                        || StringUtils.endsWithIgnoreCase(itemDto.getDescription(), search.toLowerCase()))
-                .collect(Collectors.toList());
-
+        List<Item> items = itemRepository.findByIsAvailableIsTrue(search.toLowerCase());
         return itemMapper.toListItemDto(items);
     }
 }

@@ -9,40 +9,44 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("select b from Booking b where b.booker.id = ?1 order by b.id desc")
-    List<Booking> findBookingByBookerIdOrderByStartDateDescOrderByDesc(Long bookerId);
+    List<Booking> findByBookerIdOrderByBookerId(Long bookerId);
 
     @Query("select b from Booking b where b.booker.id = ?1 and b.end < current_timestamp order by b.id desc")
-    List<Booking> findBookingByBookerIdAndEndDateIsBeforeOrderByDesc(Long bookerId);
+    List<Booking> findByBookerIdAndEndDateIsBefore(Long bookerId);
 
     @Query("select b from Booking b where b.item.owner.id = ?1 order by b.id desc")
-    List<Booking> findBookingsByItemOwnerIdOrderByStartDateDesc(Long ownedId);
+    List<Booking> findByItemOwnerId(Long ownedId);
 
     @Query("select b from Booking b where b.booker.id = ?1 and b.start > current_timestamp order by b.id desc")
-    List<Booking> findBookingsByBookerIdAndStartDateIsAfterOrderByStartDateDesc(Long bookerId);
+    List<Booking> findByBookerIdAndStartDateIsAfter(Long bookerId);
 
     @Query("select b from Booking b where b.item.owner.id = ?1 and b.status = ?2 order by b.id desc")
-    List<Booking> findBookingsByItemOwnerIdAndStatusEquals(Long ownerId, STATUS status);
+    List<Booking> findByItemOwnerIdAndStatusEquals(Long ownerId, STATUS status);
 
     @Query("select b from Booking b where b.booker.id = ?1 and b.status = ?2 order by b.id desc")
-    List<Booking> findBookingsByBookerIdAndStatusEquals(Long bookerId, STATUS status);
+    List<Booking> findByBookerIdAndStatusEquals(Long bookerId, STATUS status);
 
     @Query("select b from Booking b where b.item.owner.id = ?1 and b.start > current_timestamp order by b.id desc")
-    List<Booking> findBookingsByItemOwnerIdAndStartDateIsAfterOrderByStartDateDesc(Long ownerId);
+    List<Booking> findByItemOwnerIdAndStartDateIsAfter(Long ownerId);
 
     @Query("select b from Booking b where b.item.owner.id = ?1 and b.end < current_timestamp order by b.id desc")
-    List<Booking> findBookingsByItemOwnerIdAndEndDateIsBefore(Long ownerId);
+    List<Booking> findByItemOwnerIdAndEndDateIsBefore(Long ownerId);
 
     @Query("select b from Booking b where b.booker.id = ?1 and current_timestamp " +
             "between b.start and b.end order by b.id desc")
-    List<Booking> findBookingsByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(Long bookerId);
+    List<Booking> findByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(Long bookerId);
 
     @Query("select b from Booking b where b.item.owner.id = ?1 and current_timestamp " +
             "between b.start and b.end order by b.id desc")
-    List<Booking> findBookingsByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(Long ownerId);
+    List<Booking> findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(Long ownerId);
 
     Optional<Booking> findFirstByItemIdAndEndIsBeforeOrderByEndDesc(Long itemId, LocalDateTime localDateTime);
 
     Optional<Booking> findFirstByItemIdAndStartIsAfterOrderByStartAsc(Long itemId, LocalDateTime localDateTime);
 
     List<Booking> findAllByItemIdIn(List<Long> itemIds);
+
+    @Query("select b from Booking b where b.booker.id = ?1 and b.item.id = ?2 " +
+            "and b.end < current_timestamp order by b.id")
+    Optional<Booking> findByItemId(Long userId, Long itemId);
 }

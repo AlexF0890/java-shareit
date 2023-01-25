@@ -71,22 +71,22 @@ public class BookingServiceImpl implements BookingService {
         switch (state) {
             case ALL:
                 return bookingMapper.toBookingDtoList(
-                        bookingRepository.findBookingByBookerIdOrderByStartDateDescOrderByDesc(userId));
+                        bookingRepository.findByBookerIdOrderByBookerId(userId));
             case PAST:
                 return bookingMapper.toBookingDtoList(
-                        bookingRepository.findBookingByBookerIdAndEndDateIsBeforeOrderByDesc(userId));
+                        bookingRepository.findByBookerIdAndEndDateIsBefore(userId));
             case FUTURE:
                 return bookingMapper.toBookingDtoList(
-                        bookingRepository.findBookingsByBookerIdAndStartDateIsAfterOrderByStartDateDesc(userId));
+                        bookingRepository.findByBookerIdAndStartDateIsAfter(userId));
             case WAITING:
                 return bookingMapper.toBookingDtoList(
-                        bookingRepository.findBookingsByBookerIdAndStatusEquals(userId, STATUS.WAITING));
+                        bookingRepository.findByBookerIdAndStatusEquals(userId, STATUS.WAITING));
             case CURRENT:
                 return bookingMapper.toBookingDtoList(
-                    bookingRepository.findBookingsByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(userId));
+                    bookingRepository.findByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(userId));
             case REJECTED:
                 return bookingMapper.toBookingDtoList(
-                        bookingRepository.findBookingsByBookerIdAndStatusEquals(userId, STATUS.REJECTED));
+                        bookingRepository.findByBookerIdAndStatusEquals(userId, STATUS.REJECTED));
             default:
                 throw new BookingStateNotFoundException("Не существует");
         }
@@ -105,23 +105,23 @@ public class BookingServiceImpl implements BookingService {
         }
         switch (state) {
             case ALL:
-                return bookingMapper.toBookingDtoList(bookingRepository.findBookingsByItemOwnerIdOrderByStartDateDesc(
+                return bookingMapper.toBookingDtoList(bookingRepository.findByItemOwnerId(
                         ownerId));
             case WAITING:
-                return bookingMapper.toBookingDtoList(bookingRepository.findBookingsByItemOwnerIdAndStatusEquals(
+                return bookingMapper.toBookingDtoList(bookingRepository.findByItemOwnerIdAndStatusEquals(
                         ownerId, STATUS.WAITING));
             case REJECTED:
-                return bookingMapper.toBookingDtoList(bookingRepository.findBookingsByItemOwnerIdAndStatusEquals(
+                return bookingMapper.toBookingDtoList(bookingRepository.findByItemOwnerIdAndStatusEquals(
                         ownerId, STATUS.REJECTED));
             case FUTURE:
                 return bookingMapper.toBookingDtoList(bookingRepository
-                        .findBookingsByItemOwnerIdAndStartDateIsAfterOrderByStartDateDesc(ownerId));
+                        .findByItemOwnerIdAndStartDateIsAfter(ownerId));
             case PAST:
                 return bookingMapper.toBookingDtoList(bookingRepository
-                        .findBookingsByItemOwnerIdAndEndDateIsBefore(ownerId));
+                        .findByItemOwnerIdAndEndDateIsBefore(ownerId));
             case CURRENT:
                 return bookingMapper.toBookingDtoList(bookingRepository
-                        .findBookingsByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(ownerId));
+                        .findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(ownerId));
             default:
                 throw new BookingStateNotFoundException("Не существует");
         }
