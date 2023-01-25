@@ -1,7 +1,8 @@
-package ru.practicum.shareit.request.dto;
+package ru.practicum.shareit.request;
 
 /**
  * TODO Sprint add-item-requests.
  */
+
 public class ItemRequestDto {
 }
