@@ -16,7 +16,7 @@ public class UserDtoTest {
     }
 
     @Test
-    void UserDtoAddTest() {
+    void userDtoAddTest() {
         Long id = 1L;
         String name = "one";
         String email = "one@mail.ru";
