@@ -63,7 +63,7 @@ public class ItemRequestServiceImpl implements ItemRequestService{
         List<ItemRequestDto> itemRequests = itemRequestRepository.findAllByRequesterIdOrderByCreatedDesc(user.getId())
                 .stream()
                 .map(itemRequestMapper::toItemRequestDto)
-                .toList();
+                .collect(Collectors.toList());
         List<Long> requestIdList = itemRequests.stream().map(ItemRequestDto::getId).collect(Collectors.toList());
         List<Item> items = itemRepository.findAllByRequestIdIn(requestIdList);
         return itemRequests.stream()
