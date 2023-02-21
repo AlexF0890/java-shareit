@@ -5,11 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserDto;
 import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
@@ -38,16 +36,13 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new CommentItemNotFoundException("Данной вещи не существует"));
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Пользователя не существует"));
-        Booking booking = bookingRepository.findByItemId(userId, itemId)
+        bookingRepository.findByItemId(userId, itemId)
                 .orElseThrow(() -> new BookingCommentItemIdException("Такой записи не существует"));
         Comment comment = commentMapper.toComment(commentDtoCreation, item, user);
         comment.setItem(item);
         comment.setAuthor(user);
         comment.setCreated(LocalDateTime.now());
         commentRepository.save(comment);
-        UserDto userDto = userMapper.toUserDto(user);
-        CommentDto commentDto = commentMapper.toCommentDto(comment);
-        commentDto.setAuthorName(userDto.getName());
-        return commentDto;
+        return commentMapper.toCommentDto(comment);
     }
 }

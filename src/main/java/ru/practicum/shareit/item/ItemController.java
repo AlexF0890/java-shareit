@@ -13,12 +13,12 @@ public class ItemController {
     private final CommentService commentService;
 
     @PostMapping
-    public ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public RequestItemDto addItem(@RequestBody RequestItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.add(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestBody ItemDto itemDto, @PathVariable Long itemId,
+    public RequestItemDto updateItem(@RequestBody RequestItemDto itemDto, @PathVariable Long itemId,
                               @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.update(itemDto, itemId, userId);
     }
@@ -35,14 +35,18 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getAllItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.getItemsByUserId(userId);
+    public List<ItemDto> getAllItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                           @RequestParam(required = false) Integer from,
+                                           @RequestParam(required = false) Integer size) {
+        return itemService.getItemsByUserId(userId, from, size);
     }
 
     @GetMapping("/search")
     public List<ItemDto> searchItem(@RequestParam String text,
-                                    @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.search(text, userId);
+                                    @RequestHeader("X-Sharer-User-Id") Long userId,
+                                    @RequestParam(required = false) Integer from,
+                                    @RequestParam(required = false) Integer size) {
+        return itemService.search(text, userId, from, size);
     }
 
     @PostMapping("/{itemId}/comment")

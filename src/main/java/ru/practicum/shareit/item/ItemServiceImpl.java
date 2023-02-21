@@ -2,6 +2,8 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -9,13 +11,12 @@ import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.*;
+import ru.practicum.shareit.request.ItemRequest;
+import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
+    private final ItemRequestRepository itemRequestRepository;
     private final BookingRepository bookingRepository;
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
@@ -32,11 +34,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemDto add(ItemDto itemDto, Long ownerId) {
-        if (!userRepository.existsById(ownerId)) {
-            log.error("Пользователя не существует");
-            throw new UserNotFoundException("Пользователя не существует");
-        }
+    public RequestItemDto add(RequestItemDto itemDto, Long ownerId) {
         if (itemDto.getAvailable() == null) {
             log.error("Предмет должен иметь статус");
             throw new ItemNotAvailableException("Предмет должен иметь статус");
@@ -52,9 +50,19 @@ public class ItemServiceImpl implements ItemService {
         }
 
         Item item = itemMapper.toItem(itemDto);
-        item.setOwner(userRepository.findById(ownerId).orElseThrow());
-        itemRepository.save(item);
-        return itemMapper.toItemDto(item);
+        item.setOwner(userRepository.findById(ownerId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователя не существует")));
+
+        if (itemDto.getRequestId() == null) {
+            itemRepository.save(item);
+            return itemMapper.toRequestItemDto(item);
+        } else {
+            ItemRequest itemRequest = itemRequestRepository.findById(itemDto.getRequestId())
+                    .orElseThrow(() -> new ItemRequestNotFoundException("Записи не существует"));
+            item.setRequest(itemRequest);
+            itemRepository.save(item);
+            return itemMapper.toRequestItemDtoList(item, itemRequest.getId());
+        }
     }
 
     @Override
@@ -70,14 +78,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemDto update(ItemDto itemDto, Long id, Long userId) {
-        Item item = itemRepository.findById(id)
+    public RequestItemDto update(RequestItemDto itemDto, Long itemId, Long userId) {
+        Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ItemNotFoundException("Данной вещи не существует"));
-
-        if (!userRepository.existsById(userId)) {
-            log.error("Пользователя не существует");
-            throw new UserNotFoundException("Пользователя не существует");
-        }
 
         if (!item.getOwner().getId().equals(userId)) {
             log.error("Пользователю не принадлежит данная вещь");
@@ -95,7 +98,12 @@ public class ItemServiceImpl implements ItemService {
         if (itemDto.getAvailable() != null) {
             item.setAvailable(itemDto.getAvailable());
         }
-        return itemMapper.toItemDto(item);
+
+        if (itemDto.getRequestId() != null) {
+            item.setRequest(itemRequestRepository.findById(itemDto.getRequestId())
+                    .orElseThrow(() -> new ItemRequestNotFoundException("Такой записи не существует")));
+        }
+        return itemMapper.toRequestItemDto(item);
     }
 
     @Override
@@ -124,44 +132,63 @@ public class ItemServiceImpl implements ItemService {
     }
 
      @Override
-    public List<ItemDto> getItemsByUserId(Long userId) {
-        List<ItemDto> items = itemRepository.findByOwnerId(userId).stream()
-                .map(itemMapper::toItemDto)
-                .collect(Collectors.toList());
-        List<Long> itemIds = items.stream().map(ItemDto::getId).collect(Collectors.toList());
-        for (ItemDto itemDto: items) {
-            List<Comment> comments = commentRepository.findAllByItemIdIn(itemIds)
-                    .stream()
+    public List<ItemDto> getItemsByUserId(Long userId, Integer from, Integer size) {
+         if (!userRepository.existsById(userId)) {
+             log.error("Пользователя не существует");
+             throw new UserNotFoundException("Пользователя не существует");
+         }
+
+         List<ItemDto> items;
+         if (from == null && size == null) {
+             items = itemRepository.findByOwnerId(userId).stream()
+                     .map(itemMapper::toItemDto)
+                     .collect(Collectors.toList());
+         } else {
+             Pageable page = PageRequest.of(from, size);
+             items = itemRepository.findPageByOwnerId(userId, page).stream()
+                     .map(itemMapper::toItemDto)
+                     .collect(Collectors.toList());
+         }
+
+         List<Long> itemIds = items.stream().map(ItemDto::getId).collect(Collectors.toList());
+
+         for (ItemDto itemDto: items) {
+             List<Comment> comments = commentRepository.findAllByItemIdIn(itemIds)
+                     .stream()
                     .filter(comment -> comment.getItem().getId().equals(itemDto.getId()))
                     .collect(Collectors.toList());
-            itemDto.setComments(commentMapper.toListCommentDto(comments));
+             itemDto.setComments(commentMapper.toListCommentDto(comments));
 
-            List<Booking> bookings = bookingRepository.findAllByItemIdIn(itemIds);
-            bookings.stream().filter(b -> b.getItem().getId().equals(itemDto.getId()))
+             List<Booking> bookings = bookingRepository.findAllByItemIdIn(itemIds);
+             bookings.stream().filter(b -> b.getItem().getId().equals(itemDto.getId()))
                     .filter(b -> b.getEnd().isBefore(LocalDateTime.now()))
                     .max(Comparator.comparing(Booking::getEnd))
                     .ifPresent(lastBooking -> itemDto.setLastBooking(BookingMapper.toItemBookingDto(lastBooking)));
 
-            bookings.stream().filter(b -> b.getItem().getId().equals(itemDto.getId()))
+             bookings.stream().filter(b -> b.getItem().getId().equals(itemDto.getId()))
                     .filter(b -> b.getStart().isAfter(LocalDateTime.now()))
                     .min(Comparator.comparing(Booking::getStart))
                     .ifPresent(nextBooking -> itemDto.setNextBooking(BookingMapper.toItemBookingDto(nextBooking)));
         }
         return items;
-
     }
 
     @Override
-    public List<ItemDto> search(String search, Long userId) {
+    public List<ItemDto> search(String search, Long userId, Integer from, Integer size) {
         if (StringUtils.isEmpty(search)) {
             return new ArrayList<>();
         }
-        if (!userRepository.existsById(userId)) {
-            log.error("Пользователя не существует");
-            throw new UserNotFoundException("Пользователя не существует");
+        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователя не существует"));
+
+
+        List<Item> items;
+        if (from == null && size == null) {
+            items = itemRepository.findByIsAvailableIsTrue(search.toLowerCase());
+        } else {
+            Pageable page = PageRequest.of(from, size);
+            items = itemRepository.findPageByIsAvailableIsTrue(search.toLowerCase(), page).toList();
         }
 
-        List<Item> items = itemRepository.findByIsAvailableIsTrue(search.toLowerCase());
         return itemMapper.toListItemDto(items);
     }
 }

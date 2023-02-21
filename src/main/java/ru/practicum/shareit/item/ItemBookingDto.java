@@ -5,7 +5,11 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@Builder
 public class ItemBookingDto {
     private Long id;
     private Long bookerId;

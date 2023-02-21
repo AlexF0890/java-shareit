@@ -57,7 +57,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleBookingStartTimeAfterEndTimeException(final BookingStartTimeAfterEndTimeException e) {
+    public ErrorResponse handleBookingStartTimeAfterEndTimeException(
+            final BookingStartTimeAfterEndTimeException e) {
         return new ErrorResponse(e.getMessage());
     }
 
@@ -69,13 +70,15 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleBookingChangeStatusApprovedException(final BookingChangeStatusApprovedException e) {
+    public ErrorResponse handleBookingChangeStatusApprovedException(
+            final BookingChangeStatusApprovedException e) {
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleBookingNotBookerAndItemNotOwnerException(final BookingNotBookerAndItemNotOwnerException e) {
+    public ErrorResponse handleBookingNotBookerAndItemNotOwnerException(
+            final BookingNotBookerAndItemNotOwnerException e) {
         return new ErrorResponse(e.getMessage());
     }
 
@@ -87,7 +90,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleBookingItemNotAvailableOwnerException(final BookingItemNotAvailableOwnerException e) {
+    public ErrorResponse handleBookingItemNotAvailableOwnerException(
+            final BookingItemNotAvailableOwnerException e) {
         return new ErrorResponse(e.getMessage());
     }
 
@@ -106,6 +110,34 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBookingCommentItemIdException(final BookingCommentItemIdException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleItemRequestNotNullDescriptionException(
+            final ItemRequestNotNullDescriptionException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleItemRequestNotNullFromAndSizeException(
+            final ItemRequestNotNullFromAndSizeException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleItemRequestNotFoundException(
+            final ItemRequestNotFoundException e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleBookingNotNullFromAndSizeException(
+            final BookingNotNullFromAndSizeException e) {
         return new ErrorResponse(e.getMessage());
     }
 }

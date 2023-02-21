@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto add(UserDto userDto) {
-        if (userDto.getEmail() != null && userDto.getEmail().contains("@")) {
+        if (userDto.getName() != null && userDto.getEmail() != null && userDto.getEmail().contains("@")) {
             return userMapper.toUserDto(userRepository.save(userMapper.toUser(userDto)));
         } else {
             throw new UserEmailNotNull("Почта не должна быть пустой или должна содержать @");
@@ -38,9 +38,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getId(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("Пользователя не существует");
-        }
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Пользователя не существует"));
         return userMapper.toUserDto(user);
