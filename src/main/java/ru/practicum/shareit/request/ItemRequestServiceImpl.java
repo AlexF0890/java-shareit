@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ItemRequestServiceImpl implements ItemRequestService{
+public class ItemRequestServiceImpl implements ItemRequestService {
     private final ItemRepository itemRepository;
     private final ItemRequestRepository itemRequestRepository;
     private final UserRepository userRepository;

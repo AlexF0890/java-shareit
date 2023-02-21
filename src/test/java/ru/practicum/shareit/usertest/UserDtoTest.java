@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserDtoTest {
     @Test
-    void UserDtoTest() {
+    void UserDtoAddTest() {
         Long id = 1L;
         String name = "one";
         String email = "one@mail.ru";
