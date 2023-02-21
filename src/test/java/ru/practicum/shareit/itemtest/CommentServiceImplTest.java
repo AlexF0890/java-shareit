@@ -24,22 +24,25 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceImplTest {
     @Mock
-    private BookingRepository bookingRepository;
+    BookingRepository bookingRepository;
 
     @Mock
-    private ItemRepository itemRepository;
+    ItemRepository itemRepository;
 
     @Mock
-    private CommentMapper commentMapper;
+    CommentMapper commentMapper;
 
     @Mock
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @Mock
-    private UserMapper userMapper;
+    UserMapper userMapper;
+
+    @Mock
+    CommentRepository commentRepository;
 
     @InjectMocks
-    private CommentServiceImpl commentService;
+    CommentServiceImpl commentService;
 
     @Test
     void addTest() {
@@ -82,7 +85,7 @@ public class CommentServiceImplTest {
         Comment comment = commentMapper.toComment(commentDtoCreation, item, user);
         comment.setAuthor(user);
         comment.setItem(item);
-        when(commentService.addComment(item.getId(), user.getId(), commentDtoCreation)).thenReturn(commentDto);
+        when(commentService.addComment(id, userId, commentDtoCreation)).thenReturn(commentDto);
         CommentDto commentDto1 = commentMapper.toCommentDto(comment);
         CommentDto commentDto2 = commentService.addComment(id, userId, commentDtoCreation);
 
