@@ -42,6 +42,7 @@ public class ItemControllerTest {
         Long userId = 1L;
         RequestItemDto requestItemDto = RequestItemDto.builder().name("name")
                 .description("description").available(true).build();
+
         when(itemService.add(any(RequestItemDto.class), anyLong())).thenReturn(requestItemDto);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/items")
@@ -63,6 +64,7 @@ public class ItemControllerTest {
         Long itemId = 1L;
         RequestItemDto requestItemDto = RequestItemDto.builder().id(itemId).name("name")
                 .description("description").available(true).build();
+
         when(itemService.update(any(RequestItemDto.class), anyLong(), anyLong())).thenReturn(requestItemDto);
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/items/{itemId}", itemId)
@@ -84,6 +86,7 @@ public class ItemControllerTest {
         Long itemId = 1L;
         ItemDto itemDto = ItemDto.builder().id(itemId).name("name")
                 .description("description").available(true).build();
+
         when(itemService.getId(itemId, userId)).thenReturn(itemDto);
 
         String body = mockMvc.perform(get("/items/{itemId}", itemId)

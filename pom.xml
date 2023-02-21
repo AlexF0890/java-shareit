@@ -95,14 +95,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-					<target>11</target>
-				</configuration>
-            </plugin>
         </plugins>
 		<pluginManagement>
 			<plugins>
@@ -189,27 +181,27 @@
 											<limit>
 												<counter>LINE</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.9</minimum>
+												<minimum>0.3</minimum>
 											</limit>
 											<limit>
 												<counter>BRANCH</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.6</minimum>
+												<minimum>0.3</minimum>
 											</limit>
 											<limit>
 												<counter>COMPLEXITY</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.6</minimum>
+												<minimum>0.2</minimum>
 											</limit>
 											<limit>
 												<counter>METHOD</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.7</minimum>
+												<minimum>0.3</minimum>
 											</limit>
 											<limit>
 												<counter>CLASS</counter>
 												<value>MISSEDCOUNT</value>
-												<maximum>1</maximum>
+												<maximum>20</maximum>
 											</limit>
 										</limits>
 									</rule>

@@ -345,6 +345,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndStatusEquals(userId, STATUS.REJECTED,
@@ -366,6 +367,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerId(userId,
@@ -387,6 +389,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndEndDateIsBefore(userId,
@@ -408,6 +411,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStartDateIsAfter(userId,
@@ -429,6 +433,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStatusEquals(userId, STATUS.WAITING,
@@ -451,6 +456,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(userId,
@@ -473,6 +479,7 @@ public class BookingServiceImplTest {
         int size = 20;
 
         User user = User.builder().id(userId).build();
+
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStatusEquals(userId, STATUS.REJECTED,

@@ -20,6 +20,7 @@ public class UserTest {
         Long id = 1L;
         String name = "name";
         String email = "email@mail.ru";
+
         user.setId(id);
         user.setName(name);
         user.setEmail(email);

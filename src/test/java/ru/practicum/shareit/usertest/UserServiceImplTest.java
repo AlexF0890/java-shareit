@@ -46,6 +46,7 @@ public class UserServiceImplTest {
     @Test
     void getExistByIdTest() {
         Long id = 100L;
+
         when(userRepository.findById(id)).thenReturn(Optional.empty());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> userService.getId(id));
@@ -57,12 +58,15 @@ public class UserServiceImplTest {
     void addUserTest() {
         User userOne = new User(1L, "one", "one@mail.ru");
         UserDto userDto = new UserDto(1L, "one", "one@mail.ru");
+
         when(userMapper.toUserDto(any(User.class))).thenReturn(userDto);
 
         UserDto userDto1 = userMapper.toUserDto(userOne);
+
         when(userMapper.toUser(any(UserDto.class))).thenReturn(userOne);
 
         User userThree1 = userMapper.toUser(userDto);
+
         when(userRepository.save(any(User.class))).thenReturn(userThree1);
 
         UserDto userDto2 = userService.add(userDto1);
@@ -89,6 +93,7 @@ public class UserServiceImplTest {
                     .build();
 
             User user = new User();
+
             when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
             UserDto expectedUserDto = UserDto.builder()
@@ -107,6 +112,7 @@ public class UserServiceImplTest {
     void delete() {
         Long id = 1L;
         userService.delete(id);
+
         verify(userRepository).deleteById(id);
     }
 
@@ -118,6 +124,7 @@ public class UserServiceImplTest {
                 .build();
 
         User oldUser = new User();
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(oldUser));
 
         UserDto expectedUserDto = UserDto.builder()

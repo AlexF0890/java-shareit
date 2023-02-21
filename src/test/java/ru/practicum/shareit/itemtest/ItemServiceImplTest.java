@@ -48,10 +48,12 @@ public class ItemServiceImplTest {
                 "description", true, null);
 
         when(itemMapper.toItem(itemDto)).thenReturn(new Item());
+
         Item item = itemMapper.toItem(itemDto);
         item.setOwner(user);
 
         when(itemService.add(itemDto, userId)).thenReturn(itemDto);
+
         RequestItemDto itemDto2 = itemService.add(itemDto, user.getId());
 
         assertEquals(itemDto2.getId(), itemDto.getId());
@@ -66,15 +68,18 @@ public class ItemServiceImplTest {
                 .email("update@email.ru")
                 .name("updateName")
                 .build();
+
         lenient().when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         Item item = new Item(id, "item", "description", true, user, null);
         RequestItemDto itemDto = new RequestItemDto(id, "nameUp",
                 "descriptionUp", false, null);
+
         when(itemRepository.findById(id)).thenReturn(Optional.of(item));
 
         RequestItemDto itemDto1 = itemMapper.toRequestItemDto(item);
         RequestItemDto itemDto2 = itemService.update(itemDto, id, userId);
+
         assertEquals(itemDto2, itemDto1);
     }
 
@@ -91,10 +96,12 @@ public class ItemServiceImplTest {
                 "description", true, null);
 
         when(itemMapper.toItem(itemDto)).thenReturn(new Item());
+
         Item item = itemMapper.toItem(itemDto);
         item.setOwner(user);
 
         assertThrows(UserNotFoundException.class, () -> itemService.add(itemDto, userId));
+
         verify(itemRepository, never()).save(item);
     }
 
@@ -107,6 +114,7 @@ public class ItemServiceImplTest {
                 .email("update@email.ru")
                 .name("updateName")
                 .build();
+
         lenient().when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         Item item = new Item(id, "item", "description", true, user, null);
@@ -126,6 +134,7 @@ public class ItemServiceImplTest {
                 .email("update2@email.ru")
                 .name("update2Name")
                 .build();
+
         lenient().when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         String search = "name";

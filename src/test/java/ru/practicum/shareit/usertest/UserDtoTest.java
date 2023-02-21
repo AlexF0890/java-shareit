@@ -20,6 +20,7 @@ public class UserDtoTest {
         Long id = 1L;
         String name = "one";
         String email = "one@mail.ru";
+
         userDto.setId(id);
         userDto.setName(name);
         userDto.setEmail(email);

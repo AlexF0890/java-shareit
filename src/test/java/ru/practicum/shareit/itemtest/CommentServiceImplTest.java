@@ -56,9 +56,11 @@ public class CommentServiceImplTest {
                 .build();
         Long id = 1L;
         Item item = new Item(id, "item", "description", true, user, null);
+
         lenient().when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         lenient().when(userRepository.findById(userId2)).thenReturn(Optional.of(user2));
         lenient().when(userMapper.toUserDto(user)).thenReturn(new UserDto());
+
         UserDto userDto = userMapper.toUserDto(user);
         userDto.setName(user.getName());
         Long commentId = 1L;
@@ -80,12 +82,16 @@ public class CommentServiceImplTest {
                 .status(STATUS.APPROVED)
                 .booker(user).item(item)
                 .build();
+
         when(bookingRepository.findByItemId(id, userId)).thenReturn(Optional.of(booking));
         when(commentMapper.toComment(commentDtoCreation, item, user)).thenReturn(new Comment());
+
         Comment comment = commentMapper.toComment(commentDtoCreation, item, user);
         comment.setAuthor(user);
         comment.setItem(item);
+
         when(commentService.addComment(id, userId, commentDtoCreation)).thenReturn(commentDto);
+
         CommentDto commentDto1 = commentMapper.toCommentDto(comment);
         CommentDto commentDto2 = commentService.addComment(id, userId, commentDtoCreation);
 

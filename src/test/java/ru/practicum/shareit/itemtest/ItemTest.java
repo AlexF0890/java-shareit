@@ -29,6 +29,7 @@ public class ItemTest {
         User userTwo = new User(2L, "userTwo", "userTwo@mail.ru");
         ItemRequest itemRequest = new ItemRequest(1L, "description", userTwo,
                 LocalDateTime.of(12, 12, 12, 12, 12));
+
         item.setId(id);
         item.setName(name);
         item.setDescription(description);

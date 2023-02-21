@@ -24,6 +24,7 @@ public class ItemRequestTest {
         String description = "description";
         User user = new User();
         LocalDateTime time = LocalDateTime.now();
+
         itemRequest.setId(id);
         itemRequest.setDescription(description);
         itemRequest.setRequester(user);

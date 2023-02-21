@@ -69,6 +69,7 @@ public class ItemRequestControllerTest {
         ItemRequestDto itemRequestDto = new ItemRequestDto(requestId, "string", LocalDateTime.now(), List.of());
 
         when(itemRequestService.getId(requestId, userId)).thenReturn(itemRequestDto);
+
         String body = mvc.perform(get("/requests/{requestId}", requestId)
                         .header("X-Sharer-User-Id", userId))
                 .andExpect(status().isOk())
@@ -87,6 +88,7 @@ public class ItemRequestControllerTest {
         List<ItemRequestDto> itemRequestDto = List.of();
 
         when(itemRequestService.getAllByRequesterId(userId)).thenReturn(itemRequestDto);
+
         String body = mvc.perform(get("/requests")
                         .header("X-Sharer-User-Id", userId))
                 .andExpect(status().isOk())
@@ -104,6 +106,7 @@ public class ItemRequestControllerTest {
         List<ItemRequestDto> itemRequestDto = List.of();
 
         when(itemRequestService.getPageAllByRequestId(userId, 0, 20)).thenReturn(itemRequestDto);
+
         String body = mvc.perform(get("/requests")
                         .header("X-Sharer-User-Id", userId))
                 .andExpect(status().isOk())

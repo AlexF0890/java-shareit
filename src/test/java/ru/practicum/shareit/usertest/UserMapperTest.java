@@ -23,6 +23,7 @@ public class UserMapperTest {
         user.setId(1L);
         user.setName("one");
         user.setEmail("email@mail.ru");
+
         UserDto userDto = userMapper.toUserDto(user);
 
         assertAll("Fail",
@@ -38,6 +39,7 @@ public class UserMapperTest {
         userDto.setId(1L);
         userDto.setName("one");
         userDto.setEmail("email@mail.ru");
+
         User user = userMapper.toUser(userDto);
 
         assertAll("Fail",

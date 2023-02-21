@@ -120,11 +120,14 @@ public class ItemRequestServiceTest {
     void getAllItemRequest() {
         Long userId = 1L;
         User user = User.builder().id(userId).name("one").email("one@mail.ru").build();
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
         ItemRequest itemRequest = ItemRequest.builder().id(1L).description("test")
                 .created(LocalDateTime.now()).requester(user).build();
         List<Item> items = List.of();
         List<RequestItemDto> requestItemDto = List.of();
+
         lenient().when(itemRepository.findAllByRequestIdIn(anyList())).thenReturn(items);
         lenient().when(itemMapper.toListRequestItemDto(items)).thenReturn(requestItemDto);
         lenient().when(itemRequestRepository.findById(1L)).thenReturn(Optional.of(itemRequest));
@@ -139,18 +142,23 @@ public class ItemRequestServiceTest {
     void getAllByRequestId() {
         Long userId = 1L;
         User user = User.builder().id(userId).name("one").email("one@mail.ru").build();
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
         ItemRequest itemRequest = ItemRequest.builder().id(1L).description("test")
                 .created(LocalDateTime.now()).requester(user).build();
         List<Item> items = List.of();
         List<RequestItemDto> requestItemDto = List.of();
+
         lenient().when(itemRepository.findAllByRequestIdIn(anyList())).thenReturn(items);
         lenient().when(itemMapper.toListRequestItemDto(items)).thenReturn(requestItemDto);
         lenient().when(itemRequestRepository.findById(1L)).thenReturn(Optional.of(itemRequest));
         lenient().when(itemRequestMapper.toItemRequestDto(itemRequest)).thenReturn(new ItemRequestDto());
         when(itemRequestRepository.findAllByRequesterIdOrderByCreatedDesc(userId)).thenReturn(List.of(itemRequest));
+
         ItemRequestDto itemRequestDto = itemRequestMapper.toItemRequestDto(itemRequest);
         List<ItemRequestDto> itemRequestDtoList = itemRequestService.getAllByRequesterId(userId);
+
         assertEquals(itemRequestDtoList, List.of(itemRequestDto));
 
         verify(itemRequestRepository).findAllByRequesterIdOrderByCreatedDesc(userId);

@@ -70,6 +70,7 @@ class UserControllerTest {
         UserDto userDto = UserDto.builder().id(id).name("name").email("email@mail.ru").build();
 
         when(userService.update(any(UserDto.class), anyLong())).thenReturn(userDto);
+
         mvc.perform(patch("/users/{userId}", id)
                         .contentType("application/json")
                         .characterEncoding(StandardCharsets.UTF_8)
@@ -88,6 +89,7 @@ class UserControllerTest {
         UserDto userDto = UserDto.builder().id(id).name("name").email("email@mail.ru").build();
 
         when(userService.getId(id)).thenReturn(userDto);
+
         String body = mvc.perform(get("/users/{userId}", id))
                 .andExpect(status().isOk())
                 .andReturn()
