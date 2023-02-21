@@ -90,10 +90,10 @@ public class CommentServiceImplTest {
         comment.setAuthor(user);
         comment.setItem(item);
 
-        when(commentService.addComment(id, userId, commentDtoCreation)).thenReturn(commentDto);
+        when(commentService.add(id, userId, commentDtoCreation)).thenReturn(commentDto);
 
         CommentDto commentDto1 = commentMapper.toCommentDto(comment);
-        CommentDto commentDto2 = commentService.addComment(id, userId, commentDtoCreation);
+        CommentDto commentDto2 = commentService.add(id, userId, commentDtoCreation);
 
         assertEquals(commentDto1, commentDto2);
     }

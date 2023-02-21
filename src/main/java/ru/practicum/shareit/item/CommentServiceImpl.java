@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
@@ -21,13 +20,12 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final ItemRepository itemRepository;
     private final CommentMapper commentMapper;
 
     @Override
     @Transactional
-    public CommentDto addComment(Long itemId, Long userId, CommentDtoCreation commentDtoCreation) {
+    public CommentDto add(Long itemId, Long userId, CommentDtoCreation commentDtoCreation) {
         if (!StringUtils.hasText(commentDtoCreation.getText())) {
             throw new CommentTextIsEmptyException("Текс не может быть пустым");
         }

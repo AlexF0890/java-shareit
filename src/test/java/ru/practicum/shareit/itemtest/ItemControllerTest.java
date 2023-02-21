@@ -137,6 +137,6 @@ public class ItemControllerTest {
                 .content(mapper.writeValueAsString(commentDtoCreation)))
                 .andExpect(status().isOk());
 
-        verify(commentService).addComment(itemId, userId, commentDtoCreation);
+        verify(commentService).add(itemId, userId, commentDtoCreation);
     }
 }

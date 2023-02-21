@@ -216,45 +216,45 @@ public class BookingServiceImplTest {
     @Test
     void getAllByBookerId() {
         Long userId = 1L;
-        String string = "ALL";
+        String state = "ALL";
 
         when(userRepository.existsById(userId)).thenReturn(true);
-        lenient().when(bookingRepository.findByBookerIdOrderByBookerId(userId))
+        lenient().when(bookingRepository.findByBookerId(userId))
                 .thenReturn(List.of());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, null, null);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, null, null);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerIdOrderByBookerId(userId);
+        verify(bookingRepository).findByBookerId(userId);
     }
 
     @Test
     void getAllByPageBookerId() {
         Long userId = 1L;
-        String string = "ALL";
+        String state = "ALL";
         int from = 0;
         int size = 20;
 
         User user = User.builder().id(userId).build();
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
-        lenient().when(bookingRepository.findByBookerIdOrderByBookerId(
+        lenient().when(bookingRepository.findByBookerId(
                         PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerIdOrderByBookerId(PageRequest.of(from, size));
+        verify(bookingRepository).findByBookerId(PageRequest.of(from, size));
     }
 
     @Test
     void getAllByPagePastBookerId() {
         Long userId = 1L;
-        String string = "PAST";
+        String state = "PAST";
         int from = 0;
         int size = 20;
 
@@ -265,7 +265,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -275,7 +275,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageFutureBookerId() {
         Long userId = 1L;
-        String string = "FUTURE";
+        String state = "FUTURE";
         int from = 0;
         int size = 20;
 
@@ -286,7 +286,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -296,7 +296,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageWaitingBookerId() {
         Long userId = 1L;
-        String string = "WAITING";
+        String state = "WAITING";
         int from = 0;
         int size = 20;
 
@@ -307,7 +307,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -318,7 +318,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageCurrentBookerId() {
         Long userId = 1L;
-        String string = "CURRENT";
+        String state = "CURRENT";
         int from = 0;
         int size = 20;
 
@@ -329,7 +329,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -340,7 +340,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageRejectedBookerId() {
         Long userId = 1L;
-        String string = "REJECTED";
+        String state = "REJECTED";
         int from = 0;
         int size = 20;
 
@@ -352,7 +352,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByBookerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -362,7 +362,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageOwnerId() {
         Long userId = 1L;
-        String string = "ALL";
+        String state = "ALL";
         int from = 0;
         int size = 20;
 
@@ -374,7 +374,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -384,7 +384,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPagePastOwnerId() {
         Long userId = 1L;
-        String string = "PAST";
+        String state = "PAST";
         int from = 0;
         int size = 20;
 
@@ -396,7 +396,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -406,7 +406,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageFutureOwnerId() {
         Long userId = 1L;
-        String string = "FUTURE";
+        String state = "FUTURE";
         int from = 0;
         int size = 20;
 
@@ -418,7 +418,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -428,7 +428,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageWaitingOwnerId() {
         Long userId = 1L;
-        String string = "WAITING";
+        String state = "WAITING";
         int from = 0;
         int size = 20;
 
@@ -440,7 +440,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -451,7 +451,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageCurrentOwnerId() {
         Long userId = 1L;
-        String string = "CURRENT";
+        String state = "CURRENT";
         int from = 0;
         int size = 20;
 
@@ -463,7 +463,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
@@ -474,7 +474,7 @@ public class BookingServiceImplTest {
     @Test
     void getAllByPageRejectedOwnerId() {
         Long userId = 1L;
-        String string = "REJECTED";
+        String state = "REJECTED";
         int from = 0;
         int size = 20;
 
@@ -486,7 +486,7 @@ public class BookingServiceImplTest {
                 PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
-        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(string, userId, from, size);
+        List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
