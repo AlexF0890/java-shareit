@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import ru.practicum.shareit.booking.*;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.*;
@@ -242,16 +241,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerId(
-                        PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end"))))
-                .thenReturn(Page.empty());
+                        PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerId(PageRequest.of(
-                from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByBookerId(PageRequest.of(from, size));
     }
 
     @Test
@@ -265,15 +262,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndEndDateIsBefore(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerIdAndEndDateIsBefore(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByBookerIdAndEndDateIsBefore(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -287,15 +283,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndStartDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerIdAndStartDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByBookerIdAndStartDateIsAfter(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -309,7 +304,7 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndStatusEquals(userId, STATUS.WAITING,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
@@ -317,8 +312,7 @@ public class BookingServiceImplTest {
         assertEquals(bookings, bookings1);
 
         verify(bookingRepository)
-                .findByBookerIdAndStatusEquals(userId, STATUS.WAITING,
-                        PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+                .findByBookerIdAndStatusEquals(userId, STATUS.WAITING, PageRequest.of(from, size));
     }
 
     @Test
@@ -332,7 +326,7 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
@@ -340,8 +334,7 @@ public class BookingServiceImplTest {
         assertEquals(bookings, bookings1);
 
         verify(bookingRepository)
-                .findByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(userId,
-                        PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+                .findByBookerIdAndStartDateIsBeforeAndEndDateIsAfter(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -356,15 +349,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByBookerIdAndStatusEquals(userId, STATUS.REJECTED,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByBookerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByBookerIdAndStatusEquals(userId, STATUS.REJECTED,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByBookerIdAndStatusEquals(userId, STATUS.REJECTED, PageRequest.of(from, size));
     }
 
     @Test
@@ -379,15 +371,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerId(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByItemOwnerId(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByItemOwnerId(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -402,15 +393,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndEndDateIsBefore(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByItemOwnerIdAndEndDateIsBefore(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByItemOwnerIdAndEndDateIsBefore(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -425,15 +415,14 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStartDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
 
         assertEquals(bookings, bookings1);
 
-        verify(bookingRepository).findByItemOwnerIdAndStartDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+        verify(bookingRepository).findByItemOwnerIdAndStartDateIsAfter(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -448,7 +437,7 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStatusEquals(userId, STATUS.WAITING,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
@@ -456,8 +445,7 @@ public class BookingServiceImplTest {
         assertEquals(bookings, bookings1);
 
         verify(bookingRepository)
-                .findByItemOwnerIdAndStatusEquals(userId, STATUS.WAITING, PageRequest.of(from, size,
-                        Sort.by(Sort.Direction.DESC, "end")));
+                .findByItemOwnerIdAndStatusEquals(userId, STATUS.WAITING, PageRequest.of(from, size));
     }
 
     @Test
@@ -472,7 +460,7 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(userId,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
@@ -480,8 +468,7 @@ public class BookingServiceImplTest {
         assertEquals(bookings, bookings1);
 
         verify(bookingRepository)
-                .findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(userId,
-                        PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+                .findByItemOwnerIdAndStartDateIsBeforeAndEndDateIsAfter(userId, PageRequest.of(from, size));
     }
 
     @Test
@@ -496,7 +483,7 @@ public class BookingServiceImplTest {
         lenient().when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(userRepository.existsById(userId)).thenReturn(true);
         lenient().when(bookingRepository.findByItemOwnerIdAndStatusEquals(userId, STATUS.REJECTED,
-                PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")))).thenReturn(Page.empty());
+                PageRequest.of(from, size))).thenReturn(Page.empty());
 
         List<BookingDto> bookings = Collections.emptyList();
         List<BookingDto> bookings1 = bookingService.getAllByOwnerId(state, userId, from, size);
@@ -504,7 +491,6 @@ public class BookingServiceImplTest {
         assertEquals(bookings, bookings1);
 
         verify(bookingRepository)
-                .findByItemOwnerIdAndStatusEquals(userId, STATUS.REJECTED,
-                        PageRequest.of(from, size, Sort.by(Sort.Direction.DESC, "end")));
+                .findByItemOwnerIdAndStatusEquals(userId, STATUS.REJECTED, PageRequest.of(from, size));
     }
 }
