@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RequestItemDto {
+public class ItemDtoGateway {
     private Long id;
     private String name;
     private String description;

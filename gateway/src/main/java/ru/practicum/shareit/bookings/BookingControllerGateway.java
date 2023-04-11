@@ -8,11 +8,11 @@ import ru.practicum.shareit.exception.BookingStateIncorectException;
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
-public class BookingController {
+public class BookingControllerGateway {
     private final BookingClient bookingClient;
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody BookingDtoCreate bookingDtoCreate,
+    public ResponseEntity<Object> add(@RequestBody BookingDtoGateway bookingDtoCreate,
                                       @RequestHeader("X-Sharer-User-Id") Long userId) {
         return bookingClient.add(bookingDtoCreate, userId);
     }

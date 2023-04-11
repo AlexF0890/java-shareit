@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/items")
 @RequiredArgsConstructor
-public class ItemController {
+public class ItemControllerGateway {
     private final ItemClient itemClient;
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody RequestItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public ResponseEntity<Object> add(@RequestBody ItemDtoGateway itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemClient.add(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity<Object> update(@RequestBody RequestItemDto itemDto, @PathVariable Long itemId,
-                                             @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public ResponseEntity<Object> update(@RequestBody ItemDtoGateway itemDto, @PathVariable Long itemId,
+                                         @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemClient.update(itemDto, itemId, userId);
     }
 
@@ -50,7 +50,7 @@ public class ItemController {
     @PostMapping("/{itemId}/comment")
     public ResponseEntity<Object> addComment(@PathVariable Long itemId,
                                              @RequestHeader("X-Sharer-User-Id") Long userId,
-                                             @RequestBody CommentDtoCreation comment) {
+                                             @RequestBody CommentDtoGateway comment) {
         return itemClient.addComment(itemId, userId, comment);
     }
 }

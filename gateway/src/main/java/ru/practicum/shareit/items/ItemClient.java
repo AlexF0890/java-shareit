@@ -24,7 +24,7 @@ public class ItemClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> add(RequestItemDto itemDto, Long ownerId) {
+    public ResponseEntity<Object> add(ItemDtoGateway itemDto, Long ownerId) {
         return post("", ownerId, itemDto);
     }
 
@@ -32,7 +32,7 @@ public class ItemClient extends BaseClient {
         return delete("/" + id);
     }
 
-    public ResponseEntity<Object> update(RequestItemDto itemDto, Long itemId, Long userId) {
+    public ResponseEntity<Object> update(ItemDtoGateway itemDto, Long itemId, Long userId) {
         return patch("/" + itemId, userId, itemDto);
     }
 
@@ -55,7 +55,7 @@ public class ItemClient extends BaseClient {
         return get("/search?text=" + text + "&from={from}&size={size}", userId, parameters);
     }
 
-    public ResponseEntity<Object> addComment(Long itemId, Long userId, CommentDtoCreation commentDtoCreation) {
-        return post("/" + itemId + "/comment", userId, commentDtoCreation);
+    public ResponseEntity<Object> addComment(Long itemId, Long userId, CommentDtoGateway commentDtoGateway) {
+        return post("/" + itemId + "/comment", userId, commentDtoGateway);
     }
 }

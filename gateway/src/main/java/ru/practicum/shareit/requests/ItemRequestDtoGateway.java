@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemRequestCreateDto {
+public class ItemRequestDtoGateway {
     @NotNull
     private String description;
 }

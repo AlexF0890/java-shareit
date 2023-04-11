@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookingDtoCreate {
+public class BookingDtoGateway {
     @NotNull
     private Long itemId;
 

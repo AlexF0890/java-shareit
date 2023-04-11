@@ -9,17 +9,17 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserControllerGateway {
     private final UserClient userClient;
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody @NotNull UserDto userDto) {
-        return userClient.add(userDto);
+    public ResponseEntity<Object> add(@RequestBody @NotNull UserDtoGateway userDtoGateway) {
+        return userClient.add(userDtoGateway);
     }
 
     @PatchMapping("/{userId}")
-    public ResponseEntity<Object> update(@PathVariable("userId") Long userId, @RequestBody UserDto userDto) {
-        return userClient.update(userId, userDto);
+    public ResponseEntity<Object> update(@PathVariable("userId") Long userId, @RequestBody UserDtoGateway userDtoGateway) {
+        return userClient.update(userId, userDtoGateway);
     }
 
     @GetMapping("/{userId}")

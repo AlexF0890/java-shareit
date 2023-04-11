@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentDtoCreation {
+public class CommentDtoGateway {
     @NotNull
     private String text;
 }

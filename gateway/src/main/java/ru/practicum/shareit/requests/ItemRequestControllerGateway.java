@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor
-public class ItemRequestController {
+public class ItemRequestControllerGateway {
     private final ItemRequestClient itemRequestClient;
 
     @PostMapping
-    public ResponseEntity<Object> add(@RequestBody ItemRequestCreateDto itemRequestCreateDto,
+    public ResponseEntity<Object> add(@RequestBody ItemRequestDtoGateway itemRequestCreateDto,
                                           @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemRequestClient.add(itemRequestCreateDto, userId);
     }

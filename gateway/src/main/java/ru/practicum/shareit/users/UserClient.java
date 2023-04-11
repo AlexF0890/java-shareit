@@ -22,12 +22,12 @@ public class UserClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> add(UserDto userDto) {
-        return post("", userDto);
+    public ResponseEntity<Object> add(UserDtoGateway userDtoGateway) {
+        return post("", userDtoGateway);
     }
 
-    public ResponseEntity<Object> update(Long id, UserDto userDto) {
-        return patch("/" + id, userDto);
+    public ResponseEntity<Object> update(Long id, UserDtoGateway userDtoGateway) {
+        return patch("/" + id, userDtoGateway);
     }
 
     public ResponseEntity<Object> getId(Long id) {
