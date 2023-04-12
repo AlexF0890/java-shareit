@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # General
-.DS_Store
+*.DS_Store
 .AppleDouble
 .LSOverride
 
@@ -61,5 +61,5 @@ Temporary Items
 
 *.class
 *.jar
-*.DS_Store
+
 /.jpb/
